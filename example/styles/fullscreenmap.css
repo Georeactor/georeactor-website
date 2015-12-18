@@ -15,3 +15,12 @@ html, body, #map {
   width: 100%;
   z-index: 10;
 }
+
+li.property {
+  display: inline-block;
+  margin: 4px;
+}
+
+li.property label {
+  font-weight: bold
+}

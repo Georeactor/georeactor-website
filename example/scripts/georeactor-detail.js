@@ -14,9 +14,18 @@ function initReact() {
           </p>
         );
       } else {
+        var properties = [];
+        this.state.selectFeature.forEachProperty(function(value, key) {
+          properties.push({ key: key, value: value });
+        });
         return (
           <p>
-            Got it: {this.state.selectFeature.getProperty('Myanmar3')}
+            {properties.map(function(chr, i) {
+              return <li className="property">
+                <label>{chr.key}</label>:
+                <span>{chr.value}</span>
+              </li>;
+            }, this)}
           </p>
         );
       }
