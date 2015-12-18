@@ -5,7 +5,7 @@ repeat the process if the user updates their data.
 
 ## Which map?
 
-Starting with Leaflet and Google Maps API
+Starting with Google Maps API
 
 ## Goal
 

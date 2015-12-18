@@ -7,7 +7,6 @@ function initReact() {
     },
 
     render: function() {
-      console.log('checking');
       if (!this.state.selectFeature) {
         return (
           <p>

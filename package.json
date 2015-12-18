@@ -2,9 +2,13 @@
   "name": "georeactor",
   "version": "0.1.1",
   "description": "Mapping wizard",
-  "main": "app.js",
+  "main": "georeactor.js",
   "scripts": {
+    "start": "node georeactor-server.js",
     "test": "mocha"
+  },
+  "bin": {
+    "georeactor": "cli.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +30,8 @@
     "fast-csv": "^0.6.0",
     "level": "^1.4.0",
     "topojson": "^1.6.19"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.5"
   }
 }

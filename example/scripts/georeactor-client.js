@@ -11,7 +11,14 @@ var initMap;
       streetViewControl: false
     });
 
-    var bounds = null;
+    var globalBounds = null;
+    function fitBounds(bounds) {
+      map.fitBounds(new google.maps.LatLngBounds(
+        new google.maps.LatLng(bounds[1], bounds[0]),
+        new google.maps.LatLng(bounds[3], bounds[2])
+      ));
+    }
+
     function makeRequestFor(datafile) {
       // XMLHttpRequest without jQuery
       var df = datafile;
@@ -36,23 +43,43 @@ var initMap;
 
             // combine bounds for each data file
             for (var f = 0; f < gj.features.length; f++) {
-              bounds = makeBounds(gj.features[f].geometry.coordinates, bounds);
+              var bounds = makeBounds(gj.features[f].geometry.coordinates);
+              gj.features[f].properties.bounds = bounds;
+              if (!globalBounds) {
+                globalBounds = bounds;
+              } else {
+                globalBounds[0] = Math.min(globalBounds[0], bounds[0]);
+                globalBounds[1] = Math.min(globalBounds[1], bounds[1]);
+                globalBounds[2] = Math.max(globalBounds[2], bounds[2]);
+                globalBounds[3] = Math.max(globalBounds[3], bounds[3]);
+              }
             }
-            map.fitBounds(new google.maps.LatLngBounds(
-              new google.maps.LatLng(bounds[1], bounds[0]),
-              new google.maps.LatLng(bounds[3], bounds[2])
-            ));
+            fitBounds(globalBounds);
 
             map.data.addGeoJson(gj);
             map.data.setStyle(function (feature) {
               return {
                 fillColor: '#f00',
+                fillOpacity: 0,
                 strokeColor: '#444',
                 strokeWeight: 1
               }
             });
             map.data.addListener('click', function(event) {
+              fitBounds(event.feature.getProperty('bounds'));
               detailView.setState({ selectFeature: event.feature });
+              map.data.setStyle(function (feature) {
+                var fillOpacity = 0;
+                if (feature === event.feature) {
+                  fillOpacity = 0.2;
+                }
+                return {
+                  fillColor: '#f00',
+                  fillOpacity: fillOpacity,
+                  strokeColor: '#444',
+                  strokeWeight: 1
+                }
+              });
             });
           } else {
             console.log('failed to do XMLHttpRequest');
