@@ -1,0 +1,3 @@
+- how much is static site, how much can be done with Heroku API maker?
+- break into modules - consuming file, editor, outputting Google / Leaflet / MapBoxGL / Tangram
+- work on react editor

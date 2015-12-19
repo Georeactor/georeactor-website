@@ -41,8 +41,28 @@ var initMap;
               throw 'data type unknown: ' + datafile;
             }
 
-            // combine bounds for each data file
+            // get info on bounds and properties for each data file
             for (var f = 0; f < gj.features.length; f++) {
+              for (var key in gj.features[f].properties) {
+                var val = gj.features[f].properties[key];
+                if (!valuesForProperty[key]) {
+                  valuesForProperty[key] = {
+                    min: null,
+                    max: null,
+                    existCount: 0
+                  };
+                }
+                if (!valuesForProperty[key].min || val < valuesForProperty[key].min) {
+                  valuesForProperty[key].min = val;
+                }
+                if (!valuesForProperty[key].max || val > valuesForProperty[key].max) {
+                  valuesForProperty[key].max = val;
+                }
+                if (val) {
+                  valuesForProperty[key].existCount++;
+                }
+              }
+
               var bounds = makeBounds(gj.features[f].geometry.coordinates);
               gj.features[f].properties.bounds = bounds;
               if (!globalBounds) {
