@@ -25,6 +25,7 @@
     "url": "https://github.com/mapmeld/georeactor/issues"
   },
   "homepage": "https://github.com/mapmeld/georeactor#readme",
+  "publicKey": "public_key.asc",
   "dependencies": {
     "express": "^4.13.3",
     "fast-csv": "^0.6.0",
