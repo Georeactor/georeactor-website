@@ -4,6 +4,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var compression = require('compression');
 
+var User = require('./models/user.js');
+var Layer = require('./models/layer.js');
+var Map = require('./models/map.js');
+
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -15,9 +19,9 @@ app.use(compression());
 app.get('/', function (req, res) {
   res.render('map', {
     georeactor: {
-      map: "google",
-      div: "map",
-      data: [ "data/townships.topojson" ]
+      map: 'google',
+      div: 'map',
+      data: [ 'data/townships.topojson' ]
     }
   });
 });

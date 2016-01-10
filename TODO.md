@@ -2,4 +2,3 @@
 - design the react sidebar editor separately, but with some step-by-step creation stuff
 - how much is static site, how much can be done with Heroku API maker?
 - break into modules - consuming file, editor, outputting Google / Leaflet / MapBoxGL / Tangram
-- work on react editor
