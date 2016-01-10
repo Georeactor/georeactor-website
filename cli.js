@@ -1,5 +1,7 @@
 #! /usr/bin/env node
 
+/* @flow */
+
 var fs = require('fs');
 var exec = require('child_process').exec;
 var topojson = require('topojson');

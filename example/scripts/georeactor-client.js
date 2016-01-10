@@ -1,3 +1,6 @@
+/* @flow */
+/*global google, initReact, Array, detailView, topojson, georeactor, valuesForProperty */
+
 var initMap;
 
 (function() {

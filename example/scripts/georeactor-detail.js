@@ -1,6 +1,8 @@
+/* @flow */
+/*global ReactDOM, Array */
+
 var detailView;
 var valuesForProperty = {};
-
 
 function initReact() {
   var MapProperty = React.createClass({
