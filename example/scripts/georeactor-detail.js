@@ -7,6 +7,52 @@ var valuesForField = {};
 function initReact() {
   var banProperties = ['bounds'];
 
+  var MapLabel = React.createClass({
+    render: function() {
+      var adjustedLabel = this.props.label;
+      var adjustedValue = detailView.state.selectFeature.getProperty(this.props.label);
+      if (typeof adjustedValue === 'object') {
+        adjustedValue = JSON.stringify(adjustedValue);
+      }
+      return (
+        <p>
+          <label>{adjustedLabel}</label>
+          <span>{adjustedValue}</span>
+        </p>
+      )
+    }
+  });
+
+  var MapCode = React.createClass({
+    getInitialState: function() {
+      var added = detailView.state.codeForField;
+      added[this.props.label] = this;
+      detailView.setState({ codeForField: added });
+      return { label: this.props.label, metalabel: '{' + this.props.label + '}' };
+    },
+
+    handleLabelChange: function(e) {
+      this.setState({ label: e.target.value });
+      setTimeout(function() {
+        detailView.setState({ x: null });
+      }, 200);
+    },
+
+    handleValueChange: function(e) {
+      this.setState({ metalabel: e.target.value });
+      setTimeout(function() {
+        detailView.setState({ x: null });
+      }, 200);
+    },
+
+    render: function() {
+      return (<p>
+        <input type="text" value={this.state.label} onChange={this.handleLabelChange}/>
+        <input type="text" value={this.state.metalabel} onChange={this.handleValueChange}/>
+      </p>);
+    }
+  });
+
   var MapField = React.createClass({
     getInitialState: function() {
       return { keep: true };
@@ -40,8 +86,7 @@ function initReact() {
 
       return (
         <li className={this.props.visible ? "field" : "hide"}>
-          <label>{this.props.label}</label>:
-          <span>{this.props.value}</span>
+          <MapLabel label={this.props.label}/>
           {mapWarnings}
           <br/>
           <button className="btn btn-success" onClick={this.save}>Include Field</button>
@@ -53,7 +98,7 @@ function initReact() {
 
   var MapDetail = React.createClass({
     getInitialState: function() {
-      return { selectFeature: null, viewFieldIndex: 0, keptProperties: [] };
+      return { selectFeature: null, viewFieldIndex: 0, keptProperties: [], codeForField: {} };
     },
 
     render: function() {
@@ -73,21 +118,34 @@ function initReact() {
         return (
           <div className="container">
             <div className="col-sm-4">
+              <h4>Review Fields</h4>
               {properties.map(function(chr, i) {
                 return <MapField label={chr.label} value={chr.value} visible={this.state.viewFieldIndex === i}/>;
               }, this)}
             </div>
             <div className="col-sm-4">
-              <h4>Included Fields</h4>
+              <h4>Labels</h4>
               <ul>
                 {this.state.keptProperties.map(function(label) {
-                  return <li>{label}</li>;
+                  return <MapCode label={label}/>;
                 })}
               </ul>
             </div>
             <div className="col-sm-4">
-              <h4>React Output</h4>
-              <textarea></textarea>
+              <h4>Sample Output</h4>
+              {Object.keys(this.state.codeForField).map(function(label) {
+                var fieldGuide = this.state.codeForField[label];
+                var adjustLabel = fieldGuide.state.label;
+                var regularValue = this.state.selectFeature.getProperty(label);
+                if (typeof regularValue === 'object') {
+                  regularValue = JSON.stringify(regularValue);
+                }
+                var adjustValue = fieldGuide.state.metalabel.replace('{' + label + '}', regularValue);
+                return (<p>
+                  <label>{adjustLabel}</label>
+                  <span>{adjustValue}</span>
+                </p>);
+              }, this)}
             </div>
           </div>
         );
