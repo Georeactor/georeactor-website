@@ -1,5 +1,5 @@
 /* @flow */
-/*global google, initReact, Array, detailView, topojson, georeactor, valuesForProperty */
+/*global google, initReact, Array, detailView, topojson, georeactor, valuesForField */
 
 var initMap;
 
@@ -48,21 +48,21 @@ var initMap;
             for (var f = 0; f < gj.features.length; f++) {
               for (var key in gj.features[f].properties) {
                 var val = gj.features[f].properties[key];
-                if (!valuesForProperty[key]) {
-                  valuesForProperty[key] = {
+                if (!valuesForField[key]) {
+                  valuesForField[key] = {
                     min: null,
                     max: null,
                     existCount: 0
                   };
                 }
-                if (!valuesForProperty[key].min || val < valuesForProperty[key].min) {
-                  valuesForProperty[key].min = val;
+                if (!valuesForField[key].min || val < valuesForField[key].min) {
+                  valuesForField[key].min = val;
                 }
-                if (!valuesForProperty[key].max || val > valuesForProperty[key].max) {
-                  valuesForProperty[key].max = val;
+                if (!valuesForField[key].max || val > valuesForField[key].max) {
+                  valuesForField[key].max = val;
                 }
                 if (val) {
-                  valuesForProperty[key].existCount++;
+                  valuesForField[key].existCount++;
                 }
               }
 

@@ -2,72 +2,94 @@
 /*global ReactDOM, Array */
 
 var detailView;
-var valuesForProperty = {};
+var valuesForField = {};
 
 function initReact() {
-  var MapProperty = React.createClass({
+  var banProperties = ['bounds'];
+
+  var MapField = React.createClass({
+    getInitialState: function() {
+      return { keep: true };
+    },
+
+    save: function() {
+      this.state.keep = true;
+      detailView.setState({ keptProperties: detailView.state.keptProperties.concat([this.props.label]) });
+      detailView.render();
+      this.next();
+    },
+
+    hide: function() {
+      this.state.keep = false;
+      this.next();
+    },
+
+    next: function() {
+      detailView.setState({ viewFieldIndex: detailView.state.viewFieldIndex + 1 });
+    },
+
     render: function() {
-      if (valuesForProperty[this.props.label].existCount) {
-        if (valuesForProperty[this.props.label].min === valuesForProperty[this.props.label].max) {
-          return (
-            <li className="property">
-              <label>{this.props.label}</label>:
-              <span>{this.props.value}</span>
-              <span>This value is always identical! <button>Hide</button></span>
-            </li>
-          );
+      var mapWarnings = (<span></span>);
+      if (valuesForField[this.props.label].min === valuesForField[this.props.label].max) {
+        if (valuesForField[this.props.label].existCount) {
+          mapWarnings = (<span>This field is always blank!</span>);
         } else {
-          return (
-            <li className="property">
-              <label>{this.props.label}</label>:
-              <span>{this.props.value}</span>
-            </li>
-          );
+          mapWarnings = (<span>This field is always identical!</span>);
         }
-      } else {
-        return (
-          <li className="property">
-            <label>{this.props.label}</label>:
-            <span>{this.props.value}</span>
-            <span>This value is always blank! <button>Hide</button></span>
-          </li>
-        );
       }
+
+      return (
+        <li className={this.props.visible ? "field" : "hide"}>
+          <label>{this.props.label}</label>:
+          <span>{this.props.value}</span>
+          {mapWarnings}
+          <br/>
+          <button className="btn btn-success" onClick={this.save}>Include Field</button>
+          <button className="btn btn-danger" onClick={this.hide}>Hide Field</button>
+        </li>
+      );
     }
   });
 
   var MapDetail = React.createClass({
     getInitialState: function() {
-      return { selectFeature: null };
+      return { selectFeature: null, viewFieldIndex: 0, keptProperties: [] };
     },
 
     render: function() {
       if (!this.state.selectFeature) {
-        return (
-          <p>
-            Hello, <input type="text" placeholder="Your name here" />!
-          </p>
-        );
+        return (<p>Select an item on the map to start the editor.</p>);
       } else {
         var properties = [];
         if (this.state.selectFeature.forEachProperty) {
           this.state.selectFeature.forEachProperty(function(value, key) {
-            properties.push({ label: key, value: value });
+            if (banProperties.indexOf(key) === -1) {
+              properties.push({ label: key, value: value });
+            }
           });
         } else {
-          properties.push({ label: 'status', value: 'offline' });
-          valuesForProperty['status'] = {
-            min: 'offline',
-            max: 'online',
-            existCount: 0
-          };
+          console.log('forEachProperty unavailable');
         }
         return (
-          <p>
-            {properties.map(function(chr, i) {
-              return <MapProperty label={chr.label} value={chr.value}/>;
-            }, this)}
-          </p>
+          <div className="container">
+            <div className="col-sm-4">
+              {properties.map(function(chr, i) {
+                return <MapField label={chr.label} value={chr.value} visible={this.state.viewFieldIndex === i}/>;
+              }, this)}
+            </div>
+            <div className="col-sm-4">
+              <h4>Included Fields</h4>
+              <ul>
+                {this.state.keptProperties.map(function(label) {
+                  return <li>{label}</li>;
+                })}
+              </ul>
+            </div>
+            <div className="col-sm-4">
+              <h4>React Output</h4>
+              <textarea></textarea>
+            </div>
+          </div>
         );
       }
     }

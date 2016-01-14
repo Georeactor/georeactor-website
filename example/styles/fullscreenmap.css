@@ -16,11 +16,11 @@ html, body, #map {
   z-index: 10;
 }
 
-li.property {
+li.field {
   display: inline-block;
   margin: 4px;
 }
 
-li.property label {
+li.field label {
   font-weight: bold
 }
