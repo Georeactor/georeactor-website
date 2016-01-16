@@ -35,10 +35,10 @@ app.use(session({
 
 var csrfProtection = csrf({ cookie: true });
 
-app.get('/', function (req, res) {
-  res.render('map', {
+app.get('/m', function (req, res) {
+  res.render('leaf', {
     georeactor: {
-      map: 'google',
+      map: 'leaflet',
       div: 'map',
       data: [ 'data/townships.topojson' ]
     }

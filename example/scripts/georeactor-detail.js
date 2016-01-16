@@ -3,14 +3,26 @@
 
 var detailView;
 var valuesForField = {};
+var calledBefore = false;
 
 function initReact() {
+  // only run init once
+  if (calledBefore) {
+    return;
+  }
+  calledBefore = true;
+
   var banProperties = ['bounds'];
 
   var MapLabel = React.createClass({
     render: function() {
       var adjustedLabel = this.props.label;
-      var adjustedValue = detailView.state.selectFeature.getProperty(this.props.label);
+      var adjustedValue;
+      if (typeof detailView.state.selectFeature.getProperty === 'function') {
+        adjustedValue = detailView.state.selectFeature.getProperty(this.props.label);
+      } else {
+        adjustedValue = detailView.state.selectFeature.properties[this.props.label];
+      }
       if (typeof adjustedValue === 'object') {
         adjustedValue = JSON.stringify(adjustedValue);
       }
@@ -113,7 +125,12 @@ function initReact() {
             }
           });
         } else {
-          console.log('forEachProperty unavailable');
+          for (var key in this.state.selectFeature.properties) {
+            if (banProperties.indexOf(key) === -1) {
+              var value = this.state.selectFeature.properties[key];
+              properties.push({ label: key, value: value });
+            }
+          }
         }
         return (
           <div className="container">
@@ -136,7 +153,12 @@ function initReact() {
               {Object.keys(this.state.codeForField).map(function(label) {
                 var fieldGuide = this.state.codeForField[label];
                 var adjustLabel = fieldGuide.state.label;
-                var regularValue = this.state.selectFeature.getProperty(label);
+                var regularValue;
+                if (typeof this.state.selectFeature.getProperty === 'function') {
+                  regularValue = this.state.selectFeature.getProperty(label);
+                } else {
+                  regularValue = this.state.selectFeature.properties[label];
+                }
                 if (typeof regularValue === 'object') {
                   regularValue = JSON.stringify(regularValue);
                 }
@@ -157,4 +179,8 @@ function initReact() {
     <MapDetail/>,
     document.getElementById('sidebar')
   );
+}
+
+if (georeactor && georeactor.map === 'leaflet') {
+  initMap();
 }

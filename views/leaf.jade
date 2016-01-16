@@ -5,6 +5,7 @@ html
     meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
     title Sample Map
     link(type="text/css", rel="stylesheet", href="styles/lib/bootstrap.min.css")
+    link(type="text/css", rel="stylesheet", href="styles/lib/leaflet.css")
     link(type="text/css", rel="stylesheet", href="styles/fullscreenmap.css")
   body
     #map
@@ -14,7 +15,7 @@ html
     script(type="text/javascript", src="scripts/lib/react-dom.min.js")
     script(type="text/javascript", src="scripts/lib/jsx-transformer.min.js")
     script(type="text/javascript") var georeactor = !{JSON.stringify(georeactor || {})};
+    script(type="text/javascript", src="scripts/lib/leaflet.js")
     script(type="text/javascript", src="scripts/georeactor-client-common.js")
-    script(type="text/javascript", src="scripts/georeactor-client.js")
+    script(type="text/javascript", src="scripts/geoleaflet-client.js")
     script(type="text/jsx", src="scripts/georeactor-detail.js")
-    script(async, defer, type="text/javascript", src="//maps.googleapis.com/maps/api/js?callback=initMap")
