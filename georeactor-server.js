@@ -35,6 +35,10 @@ app.use(session({
 
 var csrfProtection = csrf({ cookie: true });
 
+app.get('/', function (req, res) {
+  res.render('home');
+});
+
 app.get('/m', function (req, res) {
   res.render('leaf', {
     georeactor: {
