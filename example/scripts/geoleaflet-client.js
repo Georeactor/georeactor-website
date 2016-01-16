@@ -7,6 +7,7 @@
   initMap = function() {
     map = L.map(georeactor.div)
       .setView([0, 0], 5);
+    new L.Hash(map);
 
     if (!georeactor.tiles || !georeactor.tiles.length) {
       osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
