@@ -4,8 +4,7 @@ The Site / Concept
 
 CLI and server
 - KML input
-- break into modules - consuming file, editor
-- upgrade Leaflet libs to 1.0
+- break editor and server into modules
 - quick client-side lib with field names?
 - include github helpers, or post maps to georeactor.com
 

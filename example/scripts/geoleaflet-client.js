@@ -13,15 +13,19 @@
       osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; OpenStreetMap contributors',
         maxZoom: 17
-      });
+      }).addTo(map);
       sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
         attribution: 'Map data &copy; OpenStreetMap contributors; satellite from MapBox',
         maxZoom: 17
-      }).addTo(map);
+      });
       L.control.layers({
-        "Satellite": sat,
-        "OpenStreetMap": osm
+        "OpenStreetMap": osm,
+        "Satellite": sat
       }, {}).addTo(map);
+      var layerControl = document.getElementsByClassName("leaflet-control-layers-toggle")[0];
+      setTimeout(function() {
+        layerControl.style.backgroundImage = 'url(styles/lib/images/layers.png)';
+      }, 200);
       map.on('baselayerchange', function() {
         /* update default lines */
       });
