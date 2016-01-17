@@ -1,8 +1,8 @@
 /* @flow */
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   name: String,
   id: String,
   language: String,

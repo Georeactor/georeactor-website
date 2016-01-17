@@ -1,7 +1,6 @@
 # GeoReactor
 
-<a href="http://georeactor.com">GeoReactor</a> is a helper to make your data into a map. It should come up with the ideal ETL process and
-repeat the process if the user updates their data.
+<a href="http://georeactor.com">GeoReactor</a> is makes your vector data into an interactive map. It comes up with an ideal ETL process and repeats the process when you update your data.
 
 ## Which map?
 

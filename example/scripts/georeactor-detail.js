@@ -12,13 +12,18 @@ function initReact() {
   }
   calledBefore = true;
 
+  // don't display internal attributes
   var banProperties = ['bounds'];
 
+  // simple Label: Value display
   var MapLabel = React.createClass({
     render: function() {
       var adjustedLabel = this.props.label;
       var adjustedValue;
-      if (typeof detailView.state.selectFeature.getProperty === 'function') {
+      if (this.props.value) {
+        adjustedValue = this.props.value;
+      }
+      else if (typeof detailView.state.selectFeature.getProperty === 'function') {
         adjustedValue = detailView.state.selectFeature.getProperty(this.props.label);
       } else {
         adjustedValue = detailView.state.selectFeature.properties[this.props.label];
@@ -27,7 +32,7 @@ function initReact() {
         adjustedValue = JSON.stringify(adjustedValue);
       }
       return (
-        <p>
+        <p className="field">
           <label>{adjustedLabel}</label>
           <span>{adjustedValue}</span>
         </p>
@@ -40,7 +45,7 @@ function initReact() {
       var added = detailView.state.codeForField;
       added[this.props.label] = this;
       detailView.setState({ codeForField: added });
-      return { label: this.props.label, metalabel: '{' + this.props.label + '}' };
+      return { label: this.props.label, metalabel: '{' + this.props.label + '}', title: null };
     },
 
     handleLabelChange: function(e) {
@@ -57,11 +62,26 @@ function initReact() {
       }, 200);
     },
 
+    handleIDChange: function(e) {
+
+    },
+
+    handleTitleChange: function(e) {
+      detailView.setState({ title: this.props.label });
+    },
+
     render: function() {
-      return (<p>
-        <input type="text" value={this.state.label} onChange={this.handleLabelChange}/>
-        <input type="text" value={this.state.metalabel} onChange={this.handleValueChange}/>
-      </p>);
+      var isTitle = (detailView.state.title === this.props.label);
+      return (<div>
+        <p>
+          <input type="text" className={isTitle ? 'unused' : ''} value={this.state.label} onChange={this.handleLabelChange} disabled={isTitle}/>
+          <input type="text" value={this.state.metalabel} onChange={this.handleValueChange}/>
+        </p>
+        <p>
+          <input type="radio" name="unique" value={this.props.label} onChange={this.handleIDChange}/> Unique ID?
+          <input type="radio" name="title" value={this.props.label} onChange={this.handleTitleChange}/> Title Field?
+        </p>
+      </div>);
     }
   });
 
@@ -71,15 +91,21 @@ function initReact() {
     },
 
     save: function() {
-      this.state.keep = true;
+      this.setState({ keep: true });
       detailView.setState({ keptProperties: detailView.state.keptProperties.concat([this.props.label]) });
-      detailView.render();
-      this.next();
     },
 
     hide: function() {
-      this.state.keep = false;
-      this.next();
+      this.setState({ keep: false });
+      var modKeptProperties = detailView.state.keptProperties;
+      var modCodeForField = detailView.state.codeForField;
+      if (modKeptProperties.indexOf(this.props.label) > -1) {
+        modKeptProperties.splice(modKeptProperties.indexOf(this.props.label), 1);
+      }
+      if (modCodeForField[this.props.label]) {
+        modCodeForField[this.props.label] = null;
+      }
+      detailView.setState({  keptProperties: modKeptProperties, codeForField: modCodeForField });
     },
 
     next: function() {
@@ -87,22 +113,36 @@ function initReact() {
     },
 
     render: function() {
-      var mapWarnings = (<span></span>);
+      var mapWarnings = <span></span>;
+      var minMax = <span></span>;
       if (valuesForField[this.props.label].min === valuesForField[this.props.label].max) {
         if (valuesForField[this.props.label].existCount) {
           mapWarnings = (<span>This field is always blank!</span>);
         } else {
           mapWarnings = (<span>This field is always identical!</span>);
         }
+      } else {
+        minMax = (<p>
+          <label>Min</label>
+          <span>{valuesForField[this.props.label].min}</span>
+          <label>Max</label>
+          <span>{valuesForField[this.props.label].max}</span>
+        </p>);
       }
 
       return (
         <li className={this.props.visible ? "field" : "hide"}>
-          <MapLabel label={this.props.label}/>
-          {mapWarnings}
-          <br/>
-          <button className="btn btn-success" onClick={this.save}>Include Field</button>
-          <button className="btn btn-danger" onClick={this.hide}>Hide Field</button>
+          <div className="pull-left">
+            <MapLabel label={this.props.label}/>
+            {mapWarnings}
+            {minMax}
+          </div>
+          <div className="pull-right">
+            <button className="btn btn-success" onClick={this.save}>Include</button>
+            <button className="btn btn-danger" onClick={this.hide}>Hide</button>
+          </div>
+          <div className="clearfix"></div>
+          <button className="btn btn-info" onClick={this.next}>Next Field</button>
         </li>
       );
     }
@@ -111,6 +151,10 @@ function initReact() {
   var MapDetail = React.createClass({
     getInitialState: function() {
       return { selectFeature: null, viewFieldIndex: 0, keptProperties: [], codeForField: {} };
+    },
+
+    viewField: function(e) {
+      this.setState({ viewFieldIndex: e.target.value * 1 });
     },
 
     render: function() {
@@ -132,10 +176,27 @@ function initReact() {
             }
           }
         }
+        var titleLabel = <h1></h1>;
+        if (this.state.title) {
+          var fieldGuide = this.state.codeForField[this.state.title];
+          var regularValue;
+          if (typeof this.state.selectFeature.getProperty === 'function') {
+            regularValue = this.state.selectFeature.getProperty(this.state.title);
+          } else {
+            regularValue = this.state.selectFeature.properties[this.state.title];
+          }
+          titleLabel = <h1>{fieldGuide.state.metalabel.replace('{' + this.state.title + '}', regularValue)}</h1>;
+        }
         return (
           <div className="container">
             <div className="col-sm-4">
-              <h4>Review Fields</h4>
+              <h4>Include Data</h4>
+              <select value={this.state.viewFieldIndex} onChange={this.viewField}>
+                {properties.map(function(chr, i) {
+                  return <option value={i}>{chr.label}</option>
+                }, this)}
+              </select>
+              <br/>
               {properties.map(function(chr, i) {
                 return <MapField label={chr.label} value={chr.value} visible={this.state.viewFieldIndex === i}/>;
               }, this)}
@@ -150,8 +211,12 @@ function initReact() {
             </div>
             <div className="col-sm-4">
               <h4>Sample Output</h4>
+              {titleLabel}
               {Object.keys(this.state.codeForField).map(function(label) {
                 var fieldGuide = this.state.codeForField[label];
+                if (fieldGuide === null) {
+                  return;
+                }
                 var adjustLabel = fieldGuide.state.label;
                 var regularValue;
                 if (typeof this.state.selectFeature.getProperty === 'function') {
@@ -163,10 +228,9 @@ function initReact() {
                   regularValue = JSON.stringify(regularValue);
                 }
                 var adjustValue = fieldGuide.state.metalabel.replace('{' + label + '}', regularValue);
-                return (<p>
-                  <label>{adjustLabel}</label>
-                  <span>{adjustValue}</span>
-                </p>);
+                if (this.state.title !== label) {
+                  return <MapLabel label={adjustLabel} value={adjustValue}/>;
+                }
               }, this)}
             </div>
           </div>

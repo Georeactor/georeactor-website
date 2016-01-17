@@ -1,17 +1,17 @@
 /* @flow */
 
-var express = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const compression = require('compression');
-var mongoose = require('mongoose');
-var csrf = require('csurf');
+const mongoose = require('mongoose');
+const csrf = require('csurf');
 
-var User = require('./models/user.js');
-var Layer = require('./models/layer.js');
-var Map = require('./models/map.js');
+const User = require('./models/user.js');
+const Layer = require('./models/layer.js');
+const Map = require('./models/map.js');
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
@@ -37,6 +37,16 @@ var csrfProtection = csrf({ cookie: true });
 
 app.get('/', function (req, res) {
   res.render('home');
+});
+
+app.get('/g', function (req, res) {
+  res.render('map', {
+    georeactor: {
+      map: 'google',
+      div: 'map',
+      data: [ 'data/townships.topojson' ]
+    }
+  });
 });
 
 app.get('/m', function (req, res) {

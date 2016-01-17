@@ -1,8 +1,8 @@
 /* @flow */
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var layerSchema = mongoose.Schema({
+const layerSchema = mongoose.Schema({
   datafiles: [String],
   name: String,
   userid: String,

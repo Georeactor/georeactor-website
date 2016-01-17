@@ -7,12 +7,13 @@ CLI and server
 - break into modules - consuming file, editor
 - upgrade Leaflet libs to 1.0
 - quick client-side lib with field names?
-- include github helpers, or use georeactor.com
+- include github helpers, or post maps to georeactor.com
 
 The Editor
 - design the react sidebar editor separately, but with some step-by-step creation stuff
-- set a primary field (like NAME) and rest are subfields
-- identify / ask for a unique ID (like OBJECTID) and make it link
+- point to asking for unique ID
+- change order of non-title fields
+- jump back to editing a field
 - special content types (videos, images, links)
 
 Output

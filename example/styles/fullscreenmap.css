@@ -22,5 +22,10 @@ li.field {
 }
 
 li.field label {
-  font-weight: bold
+  font-weight: bold;
+  display: block;
+}
+
+input.unused {
+  color: #ccc;
 }
