@@ -7,9 +7,6 @@
     "start": "node georeactor-server.js",
     "test": "eslint *.js && eslint */*.js && flow && mocha"
   },
-  "bin": {
-    "georeactor": "cli.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mapmeld/georeactor.git"
@@ -36,10 +33,6 @@
     "express-session": "^1.13.0",
     "fast-csv": "^0.6.0",
     "jade": "^1.11.0",
-    "mongoose": "^4.3.5",
-    "topojson": "^1.6.19"
-  },
-  "devDependencies": {
-    "http-server": "^0.8.5"
+    "mongoose": "^4.3.5"
   }
 }
