@@ -1,10 +1,10 @@
 The Site / Concept
-- homepage on georeactor.com
 - readme
 
 CLI and server
 - break editor and server into modules
 - quick client-side lib with field names?
+- test uploader and auth
 - include github helpers, or post maps to georeactor.com
 
 The Editor

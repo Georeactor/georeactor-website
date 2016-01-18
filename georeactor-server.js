@@ -60,7 +60,7 @@ app.post('/upload', function (req, res) {
       m.name = req.body.name || 'Unnamed Map';
       m.userid = (req.user || {id: 0}).id;
       m.datafiles = [
-        "https://s3-ap-southeast-1.amazonaws.com/chennai-test/" + tstamp
+        'https://s3-ap-southeast-1.amazonaws.com/' + process.env.S3 + '/' + tstamp
       ];
       m.save(function (err) {
         if (err) {
