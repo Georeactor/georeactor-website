@@ -6,6 +6,14 @@
 
 Starting with Google Maps API and Leaflet + OSM
 
+### Command Line
+
+See <a href="https://github.com/georeactor/georeactor-cli">georeactor-cli</a>.
+
+```bash
+georeactor borders.json --format GeoJSON --map google
+```
+
 ## Current Project
 
 - Point GeoReactor at a vector data file (if it's too big, suggest other options)

@@ -4,6 +4,38 @@
 (function() {
   var map;
 
+  mapJSONfile = function(gj) {
+    dataLayer = L.geoJson(gj, {
+      style: function (feature) {
+        return {
+          fillColor: '#f00',
+          fillOpacity: 0,
+          color: '#444',
+          weight: 1
+        }
+      },
+      onEachFeature: function (feature, layer) {
+        layer.on('click', function() {
+          fitBounds(feature.properties.bounds);
+          detailView.setState({ selectFeature: feature });
+          dataLayer.setStyle(function (styler) {
+            var fillOpacity = 0;
+            if (feature === styler) {
+              fillOpacity = 0.2;
+            }
+            return {
+              fillColor: '#f00',
+              fillOpacity: fillOpacity,
+              color: '#444',
+              weight: 1
+            }
+          });
+        });
+      }
+    }).addTo(map);
+    return dataLayer;
+  };
+
   initMap = function() {
     map = L.map(georeactor.div)
       .setView([0, 0], 5);
@@ -42,34 +74,7 @@
 
     for (var d = 0; d < georeactor.data.length; d++) {
       makeRequestFor(georeactor.data[d], function(gj) {
-        dataLayer = L.geoJson(gj, {
-          style: function (feature) {
-            return {
-              fillColor: '#f00',
-              fillOpacity: 0,
-              color: '#444',
-              weight: 1
-            }
-          },
-          onEachFeature: function (feature, layer) {
-            layer.on('click', function() {
-              fitBounds(feature.properties.bounds);
-              detailView.setState({ selectFeature: feature });
-              dataLayer.setStyle(function (styler) {
-                var fillOpacity = 0;
-                if (feature === styler) {
-                  fillOpacity = 0.2;
-                }
-                return {
-                  fillColor: '#f00',
-                  fillOpacity: fillOpacity,
-                  color: '#444',
-                  weight: 1
-                }
-              });
-            });
-          }
-        }).addTo(map);
+        mapJSONfile(gj);
       });
     }
 

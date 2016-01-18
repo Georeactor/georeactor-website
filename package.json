@@ -24,6 +24,7 @@
   "homepage": "https://github.com/mapmeld/georeactor#readme",
   "publicKey": "public_key.asc",
   "dependencies": {
+    "aws-sdk": "^2.2.30",
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "connect-mongo": "^1.1.0",

@@ -1,7 +1,14 @@
 /* @flow */
 
 var globalBounds = null;
-var fitBounds, initMap;
+var fitBounds, initMap, mapJSONfile;
+
+if (typeof console === 'undefined') {
+  console = {
+    log: function() {},
+    error: function() {}
+  }
+}
 
 function makeRequestFor(datafile, callback) {
   // XMLHttpRequest without jQuery

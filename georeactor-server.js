@@ -9,6 +9,12 @@ const compression = require('compression');
 const mongoose = require('mongoose');
 const csrf = require('csurf');
 
+const AWS = require('aws-sdk');
+AWS.config.secretAccessKey = process.env.AWS_SECRET_KEY;
+AWS.config.accessKeyId = process.env.AWS_ACCESS_KEY;
+const S3_BUCKET = 'georeactor';
+const s3 = new AWS.S3();
+
 const User = require('./models/user.js');
 const Layer = require('./models/layer.js');
 const Map = require('./models/map.js');
@@ -37,6 +43,33 @@ var csrfProtection = csrf({ cookie: true });
 
 app.get('/', function (req, res) {
   res.render('home');
+});
+
+app.get('/upload', function (req, res) {
+  res.render('upload');
+});
+
+app.post('/upload', function (req, res) {
+  var tstamp = '' + Date.now();
+  var params = { Bucket: process.env.S3_BUCKET, Key: tstamp, Body: req.body.geojson };
+  s3.putObject(params, function(err, data) {
+    if (err) {
+      res.json(err);
+    } else {
+      var m = new Map();
+      m.name = req.body.name || 'Unnamed Map';
+      m.userid = (req.user || {id: 0}).id;
+      m.datafiles = [
+        "https://s3-ap-southeast-1.amazonaws.com/chennai-test/" + tstamp
+      ];
+      m.save(function (err) {
+        if (err) {
+          throw err;
+        }
+        res.redirect('/view/' + m._id);
+      });
+    }
+  });
 });
 
 app.get('/g', function (req, res) {
