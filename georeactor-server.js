@@ -41,15 +41,15 @@ app.use(session({
 
 var csrfProtection = csrf({ cookie: true });
 
-app.get('/', function (req, res) {
+app.get('/', csrfProtection, function (req, res) {
   res.render('home');
 });
 
-app.get('/upload', function (req, res) {
+app.get('/upload', csrfProtection, function (req, res) {
   res.render('upload');
 });
 
-app.post('/upload', function (req, res) {
+app.post('/upload', csrfProtection, function (req, res) {
   var tstamp = '' + Date.now();
   var params = { Bucket: process.env.S3_BUCKET, Key: tstamp, Body: req.body.geojson };
   s3.putObject(params, function(err, data) {
@@ -72,7 +72,7 @@ app.post('/upload', function (req, res) {
   });
 });
 
-app.get('/g', function (req, res) {
+app.get('/g', csrfProtection, function (req, res) {
   res.render('map', {
     georeactor: {
       map: 'google',
@@ -82,7 +82,7 @@ app.get('/g', function (req, res) {
   });
 });
 
-app.get('/m', function (req, res) {
+app.get('/m', csrfProtection, function (req, res) {
   res.render('leaf', {
     georeactor: {
       map: 'leaflet',
