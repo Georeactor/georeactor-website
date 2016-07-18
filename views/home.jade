@@ -2,15 +2,42 @@ doctype
 html
   head
     meta(charset="utf-8")
-    title Georeactor
+    meta(name="viewport", content="width=device-width")
+    meta(name="author", content="Nick Doiron")
+    meta(name="description", content="GeoReactor mapping library and consultancy")
+
+    title GeoReactor
     link(rel="stylesheet", type="text/css", href="//fonts.googleapis.com/css?family=Fjalla+One")
     link(rel="stylesheet", type="text/css", href="styles/lib/bootstrap.min.css")
     style(type="text/css") h1, h2, h3, h4 { font-family: 'Fjalla One', sans-serif !important; }
   body
-    .navbar
-      .container
-        h1 What is Georeactor?
-    .container
+    .container.main
       .row
         .col-sm-12
-          h3 coming soon
+          .jumbotron(style="color:#fff;background-repeat:no-repeat;background-position-x:center;background-image:url('/backdrop.jpg');")
+            h1 GeoReactor
+            
+            button.btn.btn-success
+              h2 Make a Map
+            span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            button.btn.btn-info
+              h2 See Examples
+      .row
+        .col-sm-12
+          h2 A web maps library
+          ul
+            li Place your data on top of Google Maps or OpenStreetMap
+            li See it on desktop, mobile, embedded maps
+            li Update your data and refresh the map
+      hr
+      .row
+        .col-sm-12
+          hr
+          h3 GeoReactor is free and open source
+          p That means coders can add on to it, or make their own apps. And anyone can code, so that new app might be yours!
+          p
+            span Check out our&nbsp;
+            a(href="https://github.com/mapmeld/georeactor") GitHub project
+            span .
+          hr
+          small &copy; 2016 Nick Doiron
