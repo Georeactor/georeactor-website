@@ -35,5 +35,11 @@
     "fast-csv": "^0.6.0",
     "jade": "^1.11.0",
     "mongoose": "^4.5.5"
+    "react": "^0.14.7"
+  },
+  "devDependencies": {
+    "enzyme": "^2.0.0",
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
   }
 }

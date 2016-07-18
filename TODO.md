@@ -5,7 +5,8 @@ CLI and server
 - break editor and server into modules
 - quick client-side lib with field names?
 - test uploader and auth
-- include github helpers, or post maps to georeactor.com
+- MapShaper for labeling
+- include github helpers, or post maps to georeactor.com - fork and drop in a file?
 
 The Editor
 - design the react sidebar editor separately, but with some step-by-step creation stuff
@@ -13,6 +14,7 @@ The Editor
 - change order of non-title fields
 - jump back to editing a shown field
 - special content types (videos, images, links)
+- Airbnb Enzyme for React testing
 
 Output
 - design the responsive sidebar
