@@ -46,6 +46,10 @@ app.get('/', csrfProtection, function (req, res) {
   res.render('home');
 });
 
+app.get('/talks', csrfProtection, function (req, res) {
+  res.render('talk');
+});
+
 app.get('/upload', csrfProtection, function (req, res) {
   res.render('upload');
 });
