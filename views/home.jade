@@ -7,8 +7,9 @@ html
     meta(name="description", content="GeoReactor mapping library and consultancy")
 
     title GeoReactor
-    link(rel="stylesheet", type="text/css", href="//fonts.googleapis.com/css?family=Fjalla+One")
-    link(rel="stylesheet", type="text/css", href="styles/lib/bootstrap.min.css")
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Fjalla+One")
+    link(rel="stylesheet", href="styles/lib/bootstrap.min.css")
+    link(rel="stylesheet", href="lib/codemirror.css")
     style(type="text/css") h1, h2, h3, h4 { font-family: 'Fjalla One', sans-serif !important; }
   body
     .container.main
@@ -20,16 +21,23 @@ html
             button.btn.btn-success
               h2 Make a Map
             span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            button.btn.btn-info
+            a.btn.btn-info(href="http://georeactor.github.io/georeactor-js/")
               h2 See an Example
       .row
-        .col-sm-12
+        .col-sm-6
           h2 An interactive maps library
           ul
             li Place your data on top of Google Maps or OpenStreetMap
-            li Developer-friendly presets, user-friendly UI for lots of different data
+            li Developer-friendly presets, user-friendly UI for different datasets
             li See it on desktop, mobile, and embedded maps
             li Update your data and refresh the map
+          h2 A consultancy
+          p Do you need a website, a database, a little help setting up a map or visualization?
+          p
+            span Let's get in touch.
+            a.btn.btn-info(href="mailto:ndoiron@mapmeld.com") E-mail me
+        .col-sm-6
+          textarea#code
       hr
       .row
         .col-sm-12
@@ -41,4 +49,13 @@ html
             a(href="https://github.com/georeactor") GitHub org
             span .
           hr
-          small &copy; 2016 Nick Doiron
+          small
+            span &copy; 2016 Nick Doiron -&nbsp;
+            a(href="mailto:ndoiron@mapmeld.com") Consultancy Inquiry
+            span &nbsp;-&nbsp;
+            a(href="/talks") Speaker Page
+    script(src="/lib/codemirror.min.js")
+    script(src="/lib/xml.js")
+    script(src="/lib/javascript.js")
+    script(src="/lib/htmlmixed.js")
+    script(src="/homepage.js")
