@@ -1,6 +1,3 @@
-/* @flow */
-/*global ReactDOM, Array */
-
 var detailView;
 var valuesForField = {};
 var calledBefore = false;

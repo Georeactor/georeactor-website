@@ -1,0 +1,26 @@
+h1, h2, h3, h4 {
+  font-family: 'Fjalla One', sans-serif !important;
+}
+
+.CodeMirror {
+  height: auto;
+}
+
+.jumbotron.main {
+  color: #fff;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-image: url('/backdrop.jpg');
+}
+
+.btn.margleft {
+  margin-left: 25px;
+}
+
+.btn.margright {
+  margin-right: 25px;
+}
+
+body {
+  padding-bottom: 35px;
+}

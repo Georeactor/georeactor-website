@@ -10,17 +10,16 @@ html
     link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Fjalla+One")
     link(rel="stylesheet", href="styles/lib/bootstrap.min.css")
     link(rel="stylesheet", href="lib/codemirror.css")
-    style(type="text/css") h1, h2, h3, h4 { font-family: 'Fjalla One', sans-serif !important; }
+    link(rel="stylesheet", href="homepage.css")
   body
     .container.main
       .row
         .col-sm-12
-          .jumbotron(style="color:#fff;background-repeat:no-repeat;background-position-x:center;background-image:url('/backdrop.jpg');")
+          .jumbotron.main
             h1 GeoReactor
             
-            button.btn.btn-success
+            button.btn.btn-success.margright
               h2 Make a Map
-            span &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             a.btn.btn-info(href="http://georeactor.github.io/georeactor-js/")
               h2 See an Example
       .row
@@ -35,8 +34,9 @@ html
           p Do you need a website, a database, a little help setting up a map or visualization?
           p
             span Let's get in touch.
-            a.btn.btn-info(href="mailto:ndoiron@mapmeld.com") E-mail me
+            a.btn.btn-info.margleft(href="mailto:ndoiron@mapmeld.com") E-mail me
         .col-sm-6
+          h3 Sample Code
           textarea#code
       hr
       .row
