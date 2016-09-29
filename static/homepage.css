@@ -21,6 +21,11 @@ h1, h2, h3, h4 {
   margin-right: 25px;
 }
 
+.btn.btn-default {
+  margin-right: 7px;
+  margin-top: 5px;
+}
+
 body {
   padding-bottom: 35px;
 }
