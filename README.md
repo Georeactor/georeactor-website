@@ -1,5 +1,7 @@
 # GeoReactor
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Georeactor/georeactor-website.svg)](https://greenkeeper.io/)
+
 <a href="http://georeactor.com">GeoReactor</a> is makes your vector data into an interactive map. It comes up with an ideal ETL process and repeats the process when you update your data.
 
 ## Which map?
